@@ -1,0 +1,17 @@
+--Custom procedure that can be used to calculate from and to dates
+CREATE PROCEDURE datedelta (@pastdelta int, @futuredelta int) 
+AS 
+BEGIN 
+DECLARE @dtfrom datetime,
+        @dtto datetime
+--This variable is first of the current month minus a certain number of months or the delta provided		
+SET @dtfrom = dateadd(mm, @pastdelta, DATEADD(DAY, 1, EOMONTH(getdate(), -1)))
+
+---This variable is the end of the current month plus a certain number of months or the delta provided
+SET @dtto = dateadd(mm, @futuredelta, EOMONTH (getdate()))
+
+SELECT @dtfrom AS 'Date From', @dtto AS 'Date To' 
+END 
+
+--sample execute statement
+EXEC datedelta @pastdelta = -3, @futuredelta = 3
